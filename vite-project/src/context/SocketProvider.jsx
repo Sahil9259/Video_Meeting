@@ -7,7 +7,7 @@ export const useSocket=()=>{
 }
 
 export const SocketProvider= (props)=>{
-    const socket = useMemo(()=>io('https://video-app-czvh.onrender.com/:8000'),[]);
+    const socket = useMemo(()=>io('https://video-app-czvh.onrender.com'),[]);
     return (
         <SocketContext.Provider value={socket}>
             {props.children}
