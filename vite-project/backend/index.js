@@ -51,6 +51,10 @@ const app = express();
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log(`Server is running on port ${server.address().port}`);
 });
+app.use((req, res, next) => {
+  res.header('Content-Type', 'application/javascript');
+  next();
+});
 
 const io = new Server(server, {
   cors: true,
