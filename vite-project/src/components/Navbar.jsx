@@ -9,7 +9,7 @@ const NavbarWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  border-radius: 10px;
+  // border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
@@ -23,10 +23,9 @@ const UserIcons = styled.div`
   align-items: center;
   margin-top: 1rem;
 
-  @media (max-width: 650px) {
-    flex-direction: column;
-    align-items: flex-end;
-  }
+  // @media (max-width: 600px) {
+  //   display: none;
+  // }
 `;
 
 const UserIcon = styled.img`
@@ -34,10 +33,8 @@ const UserIcon = styled.img`
   height: 30px;
   border-radius: 50%;
   margin-right: 0.5rem;
-
-  @media (max-width: 650px) {
-    margin-bottom: 0.5rem;
-    margin-right: 0;
+  @media (max-width: 600px) {
+    display: none;
   }
 `;
 
@@ -46,7 +43,7 @@ const DateTime = styled.div`
   opacity: 0.8;
   margin-right: 1rem;
 
-  @media (max-width: 650px) {
+  @media (max-width: 600px) {
     margin-right: 0;
   }
 `;
