@@ -39,28 +39,12 @@ const Room = () => {
     [socket]
   );
 
-  // const sendStreams = useCallback(() => {
-  //   for (const track of myStream.getTracks()) {
-  //     peer.peer.addTrack(track, myStream);
-  //   }
-  // }, [myStream]);
   const sendStreams = useCallback(() => {
-    if (myStream) {
-      const senders = peer.peer.getSenders();
-  
-      myStream.getTracks().forEach(track => {
-        const existingSender = senders.find(sender => sender.track && sender.track.id === track.id);
-  
-        if (existingSender) {
-          // Update the existing sender with the new track
-          existingSender.replaceTrack(track);
-        } else {
-          // Add a new sender for the track
-          peer.peer.addTrack(track, myStream);
-        }
-      });
+    for (const track of myStream.getTracks()) {
+      peer.peer.addTrack(track, myStream);
     }
-  }, [myStream, peer.peer]);
+  }, [myStream]);
+
 
   const handleCallAccepted = useCallback(
     ({ from, ans }) => {

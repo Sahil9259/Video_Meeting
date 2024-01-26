@@ -4,19 +4,11 @@ const app = require('express')();
 const io = new Server(8000, {
   cors: true,
 });
-// const PORT = process.env.PORT || 8000;
+
 
 const emailToSocketIdMap = new Map();
 const socketidToEmailMap = new Map();
 
-// app.get("/",(req,res)=>{
-//   res.send('Server is Running.');
-// });
-
-// const app = require('express')();
-// const server = require("http").createServer(app);
-// const cors = require('cors');
-// app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 app.get("/",(req,res)=>{
@@ -52,5 +44,3 @@ io.on("connection", (socket) => {
     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
   });
 });
-// Server.listen(PORT, () =>console.log(`Server listening on port ${PORT}`));
-// server.listen(PORT, () =>console.log(`Server listening on port ${PORT}`));
