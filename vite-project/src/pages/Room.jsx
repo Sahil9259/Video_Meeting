@@ -14,16 +14,30 @@ const Room = () => {
     setRemoteSocketId(id);
   }, []);
 
+  // const handleCallUser = useCallback(async () => {
+  //   const stream = await navigator.mediaDevices.getUserMedia({
+  //     audio: true,
+  //     video: true,
+  //   });
+  //   const offer = await peer.getOffer();
+  //   socket.emit("user:call", { to: remoteSocketId, offer });
+  //   setMyStream(stream);
+  // }, [remoteSocketId, socket]);
   const handleCallUser = useCallback(async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    });
-    const offer = await peer.getOffer();
-    socket.emit("user:call", { to: remoteSocketId, offer });
-    setMyStream(stream);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+      const offer = await peer.getOffer();
+      socket.emit("user:call", { to: remoteSocketId, offer });
+      setMyStream(stream);
+    } catch (error) {
+      console.error('Error accessing media devices:', error);
+      // Handle error, e.g., show a message to the user
+    }
   }, [remoteSocketId, socket]);
-
+  
   const handleIncommingCall = useCallback(
     async ({ from, offer }) => {
       setRemoteSocketId(from);
@@ -121,7 +135,6 @@ const Room = () => {
           <h1>My Stream</h1>
           <ReactPlayer
             playing
-            muted
             height="100px"
             width="200px"
             url={myStream}
@@ -133,7 +146,6 @@ const Room = () => {
           <h1>Remote Stream</h1>
           <ReactPlayer
             playing
-            muted
             height="100px"
             width="200px"
             url={remoteStream}
