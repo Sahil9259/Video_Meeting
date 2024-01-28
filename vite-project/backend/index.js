@@ -2,9 +2,10 @@ const { Server } = require("socket.io");
 const express = require('express');
 
 const app = express();
-const server = app.listen(8000, () => {
-  console.log(`Server is running on port ${server.address().port}`);
-});
+// const PORT = 8000;
+// const server = app.listen(PORT, () => {
+//   console.log(`Server is running on port 8000`);
+// });
 
 const io = new Server(8000, {
   cors: true,
