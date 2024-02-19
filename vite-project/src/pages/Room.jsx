@@ -2,12 +2,57 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import peer from "../services/peer";
 import { useSocket } from "../context/SocketProvider";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+`;
+
+const Title = styled.h2`
+  margin: 0px;
+  padding: 0px;
+`;
+
+const Status = styled.h4`
+  color: #2ecc71;
+`;
+
+const ButtonCont = styled.div`
+  display: flex;
+  align-item = center;
+`;
+const Button = styled.button`
+  background-color: #3498db;
+  color: #fff;
+  padding: 5px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+`;
+
+const StreamContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  // margin-top: 20px;
+`;
+
+const Stream = styled.div`
+  align-item = center;
+  // margin: 10px;
+`;
 
 const Room = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoPaused, setIsVideoPaused] = useState(false);
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -85,7 +130,7 @@ const Room = () => {
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
       const remoteStream = ev.streams;
-      console.log("GOT TRACKS!!",remoteStream[0]);
+      // console.log("GOT TRACKS!!",remoteStream[0]);
       setRemoteStream(remoteStream[0]);
     });
   }, []);
@@ -114,29 +159,50 @@ const Room = () => {
   ]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams}>Send Stream</button>}
-      {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
-      {myStream && (
-        <>
-          <h1>My Stream</h1>
-          <ReactPlayer playing height="100px" width="200px" url={myStream} />
-        </>
-      )}
-      {remoteStream && (
-        <>
-          <h1>Remote Stream</h1>
-          <ReactPlayer
-            playing
-            height="100px"
-            width="200px"
-            url={remoteStream}
-          />
-        </>
-      )}
-    </div>
+    <Container>
+      <Title>Room Page</Title>
+      <Status>{remoteSocketId ? "Connected" : "No one in the room"}</Status>
+      <StreamContainer>
+        {myStream && (
+          <Stream>
+            <h2>My Stream</h2>
+            <ReactPlayer
+              playing
+              muted={isMuted}
+              controls={!isVideoPaused}
+              width="300px"
+              height="200px"
+              url={myStream}
+            />
+          </Stream>
+        )}
+        {remoteStream && (
+          <Stream>
+            <h2>Remote Stream</h2>
+            <ReactPlayer
+              playing
+              height="200px"
+              width="300px"
+              url={remoteStream}
+            />
+          </Stream>
+        )}
+      </StreamContainer>
+      <ButtonCont>
+        {myStream && (
+          <>
+            <Button onClick={() => setIsMuted(!isMuted)}>
+              {isMuted ? "Unmute" : "Mute"} Audio
+            </Button>
+            <Button onClick={() => setIsVideoPaused(!isVideoPaused)}>
+              {isVideoPaused ? "Resume" : "Pause"} Video
+            </Button>
+          </>
+        )}
+        {myStream && <Button onClick={sendStreams}>Send Stream</Button>}
+        {remoteSocketId && <Button onClick={handleCallUser}>CALL</Button>}
+      </ButtonCont>
+    </Container>
   );
 };
 

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React  from "react";
+import styled from "styled-components";
+import {  NavLink } from "react-router-dom";
 
 const NavbarWrapper = styled.div`
   background-color: #202124;
@@ -9,73 +10,48 @@ const NavbarWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  // border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
-const Logo = styled.h1`
+const Logo = styled.h3`
   margin: 0;
-  font-size: 1.5rem;
 `;
 
 const UserIcons = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 1rem;
 
-  // @media (max-width: 600px) {
-  //   display: none;
-  // }
-`;
-
-const UserIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-  @media (max-width: 600px) {
-    display: none;
+  a {
+    display: block;
+    margin: 10px 10px;
+    padding: 8px 10px;
+    background-color: #fff;
+    color: #202124;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #202124;
+      color: #fff;
+    }
   }
 `;
 
-const DateTime = styled.div`
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-right: 1rem;
-
-  @media (max-width: 600px) {
-    margin-right: 0;
-  }
+const UserIcon = styled.h5`
+  width: 100%;
+  
 `;
 
 const Navbar = () => {
-  const [dateTime, setDateTime] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDateTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const formattedDateTime = dateTime.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  });
-
   return (
     <NavbarWrapper>
-      <Logo>Meet</Logo>
-
+      <Logo>Video Call</Logo>
       <UserIcons>
-        <DateTime>{formattedDateTime}</DateTime>
-        <UserIcon src="https://via.placeholder.com/30" alt="User 1" />
-        <UserIcon src="https://via.placeholder.com/30" alt="User 2" />
+        <NavLink to='/createmeet'>Create Meeting</NavLink>
+        <NavLink to='/joinmeet'>Join Meeting</NavLink>
       </UserIcons>
     </NavbarWrapper>
   );

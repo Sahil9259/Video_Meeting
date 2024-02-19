@@ -4,7 +4,8 @@ import Lobby from './pages/Lobby'
 import Navbar from './components/Navbar'
 import Room from './pages/Room'
 import "./App.css";
-// import Footer from './components/Footer'
+import CreateMeeting from './pages/CreateMeeting'
+import JoinMeeting from './pages/JoinMeeting'
 
 export default function App()  {
   return (
@@ -13,8 +14,9 @@ export default function App()  {
       <Routes>
         <Route exact path='/' element={<Lobby/>}/>
         <Route path="/room/:roomId" element={<Room/>} />
+        <Route exact path='/createmeet' element={<CreateMeeting/>}/>
+        <Route path="/joinmeet" element={<JoinMeeting/>} />
       </Routes>
-      {/* <Footer/> */}
     </>
   )
 }
