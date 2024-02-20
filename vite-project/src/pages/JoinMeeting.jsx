@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketProvider";
-import styled from 'styled-components';
-import icon from '../assets/meet.jpg';
+import styled from "styled-components";
+import icon from "../assets/meet.jpg";
 
 const Container = styled.div`
   display: flex;
@@ -44,14 +44,21 @@ const FormContainer = styled.div`
       margin-bottom: 10px;
       box-sizing: border-box;
     }
-
     button {
-      padding: 10px;
+      display: block;
+      margin: 10px 20px;
+      padding: 8px 10px;
+      width: 35%;
       background-color: #007bff;
       color: #fff;
-      border: none;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
       cursor: pointer;
-      margin-right: 10px;
+
+      &:hover {
+        background-color: #0056b3;
+      }
     }
   }
 `;
@@ -74,9 +81,9 @@ const JoinMeeting = () => {
   const handleSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      socket.emit("room:join", { email, room });
+      socket.emit("room:join", { name, email, room });
     },
-    [email, room, socket]
+    [name, email, room, socket]
   );
 
   useEffect(() => {
@@ -93,7 +100,7 @@ const JoinMeeting = () => {
           <img src={icon} alt="Image description" />
         </ImageContainer>
         <FormContainer>
-            <h2>Join Meeting</h2>
+          <h2>Join Meeting</h2>
           <form onSubmit={handleSubmitForm}>
             <label htmlFor="name">Name</label>
             <input
@@ -115,11 +122,11 @@ const JoinMeeting = () => {
             <br />
             <label htmlFor="room">Room Number</label>
             <input
-                type="text"
-                id="room"
-                value={room}
-                onChange={(e) => setRoom(e.target.value)}
-                required
+              type="text"
+              id="room"
+              value={room}
+              onChange={(e) => setRoom(e.target.value)}
+              required
             />
             <br />
             <button type="submit">Submit</button>

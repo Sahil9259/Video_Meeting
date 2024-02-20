@@ -38,12 +38,12 @@ const StreamContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  // margin-top: 20px;
+  margin-right: 20px;
 `;
 
 const Stream = styled.div`
   align-item = center;
-  // margin: 10px;
+  margin: 5px;
 `;
 
 const Room = () => {
@@ -52,11 +52,15 @@ const Room = () => {
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
   const [isMuted, setIsMuted] = useState(false);
-  const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const [showConnectedMessage, setShowConnectedMessage] = useState(false);
 
-  const handleUserJoined = useCallback(({ email, id }) => {
+  const handleUserJoined = useCallback(({email, id }) => {
     console.log(`Email ${email} joined room`);
     setRemoteSocketId(id);
+    setShowConnectedMessage(true);
+    setTimeout(() => {
+      setShowConnectedMessage(false);
+    }, 2000);
   }, []);
 
   const handleCallUser = useCallback(async () => {
@@ -161,27 +165,30 @@ const Room = () => {
   return (
     <Container>
       <Title>Room Page</Title>
-      <Status>{remoteSocketId ? "Connected" : "No one in the room"}</Status>
+      <Status>
+      {remoteSocketId
+          ? (showConnectedMessage && "Connected")
+          : "No one in the room"}
+      </Status>
       <StreamContainer>
         {myStream && (
           <Stream>
-            <h2>My Stream</h2>
+            <h2>My Video</h2>
             <ReactPlayer
               playing
               muted={isMuted}
-              controls={!isVideoPaused}
               width="300px"
-              height="200px"
+              height="300px"
               url={myStream}
             />
           </Stream>
         )}
         {remoteStream && (
           <Stream>
-            <h2>Remote Stream</h2>
+            <h2>Other Video</h2>
             <ReactPlayer
               playing
-              height="200px"
+              height="300px"
               width="300px"
               url={remoteStream}
             />
@@ -192,10 +199,7 @@ const Room = () => {
         {myStream && (
           <>
             <Button onClick={() => setIsMuted(!isMuted)}>
-              {isMuted ? "Unmute" : "Mute"} Audio
-            </Button>
-            <Button onClick={() => setIsVideoPaused(!isVideoPaused)}>
-              {isVideoPaused ? "Resume" : "Pause"} Video
+              {isMuted ? "Unmute" : "Mute"}
             </Button>
           </>
         )}

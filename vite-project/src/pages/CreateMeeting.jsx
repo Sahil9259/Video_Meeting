@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSocket } from "../context/SocketProvider";
 import styled from "styled-components";
 import icon from "../assets/meet.jpg";
@@ -44,18 +44,38 @@ const FormContainer = styled.div`
       margin-bottom: 10px;
       box-sizing: border-box;
     }
-
-    button {
-      padding: 10px;
+    a {
+      display: block;
+      margin: 10px 20px;
+      padding: 8px 10px;
+      width : 35%;
       background-color: #007bff;
       color: #fff;
-      border: none;
-      cursor: pointer;
-      margin-right: 10px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+    button {
+      display: block;
+      margin: 10px 20px;
+      padding: 8px 10px;
+      width : 35%;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
     }
   }
 `;
-// ... (other imports and styles)
 
 const CreateMeeting = () => {
   const [email, setEmail] = useState("");
@@ -144,7 +164,7 @@ const CreateMeeting = () => {
             {!isCreateMeeting ? (
               <>
                 {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                <button onClick={handleCreateMeeting}>Create Room No</button>
+                <Link onClick={handleCreateMeeting}>Create Room No</Link>
               </>
             ) : (
               <>
