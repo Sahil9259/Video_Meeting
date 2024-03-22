@@ -97,7 +97,7 @@ const JoinMeeting = () => {
     <div>
       <Container>
         <ImageContainer>
-          <img src={icon} alt="Image description" />
+          <img src={icon} alt="Image description" preload />
         </ImageContainer>
         <FormContainer>
           <h2>Join Meeting</h2>
